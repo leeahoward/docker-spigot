@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e 
+set -x 
 ### BEGIN INIT INFO
 # Provides:       minecraft_server
 # Required-Start: $remote_fs $syslog
@@ -15,9 +17,9 @@
 #
 
 MC_USER=minecraft       # User name running the minecraft server
-MC_PROC=spigot.jar   # name of minecraft jar file
-MC_DIR=/minecraft/ # Directory where the server should run
-MC_JAVA_OPS='-Xmx1G -Xms1G'   # java options for minecraft server
+#MC_PROC=spigot.jar   # name of minecraft jar file
+#MC_DIR=/minecraft/ # Directory where the server should run
+#MC_JAVA_OPS='-Xmx1G -Xms1G'   # java options for minecraft server
 
 JAVACMD=$(which java)
 
@@ -35,7 +37,7 @@ Options:
   restart
     Restart the Minecraft server.
 
-  create <version> 
+  create
     Create a minecraft server, version is the version of minecraft you want to use.
     latest gives the latest version. Does not clean other files in the directory
 
@@ -151,8 +153,8 @@ checkOK() {
 
   # and there are a jar file in it
 
-  if [ ! -f $MC_DIR/$MC_PROC ] ; then
-	echo "the minecraftfile $MC_DIR/$MC_PROC does not exist."
+  if [ ! -f $MC_PROC ] ; then
+	echo "the minecraftfile $MC_PROC does not exist."
 	exit 1
   fi 
 
@@ -185,19 +187,19 @@ checkOK() {
 
 buildjar() {
   # build it if it not exists
-  if [ ! -f /$SPIGOT_HOME/spigot-$1.jar ]; then
+  if [ ! -f $SPIGOT_HOME/spigot-$1.jar ]; then
     echo "Building spigot version ($1) jar file, be patient"
-    if [ -d /$SPIGOT_HOME/build ]; then
-	execCMD "rm -Rf /$SPIGOT_HOME/build"
+    if [ -d $SPIGOT_HOME/build ]; then
+      execCMD "rm -Rf $SPIGOT_HOME/build"
     fi
-    execCMD "mkdir -p /$SPIGOT_HOME/build"
-    execCMD "wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O /$SPIGOT_HOME/build/BuildTools.jar"
-    execCMD "cd /$SPIGOT_HOME/build;HOME=/$SPIGOT_HOME/build java -jar BuildTools.jar --rev $1"
-    execCMD "cp /$SPIGOT_HOME/build/Spigot/Spigot-Server/target/spigot-*.jar /$SPIGOT_HOME/spigot-$1.jar"
-    execCMD "rm -Rf /$SPIGOT_HOME/build"
+    execCMD "mkdir -p $SPIGOT_HOME/build"
+    execCMD "wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O $SPIGOT_HOME/build/BuildTools.jar"
+    execCMD "cd $SPIGOT_HOME/build;HOME=$SPIGOT_HOME/build java -jar BuildTools.jar --rev $1"
+    execCMD "cp $SPIGOT_HOME/build/Spigot/Spigot-Server/target/spigot-*.jar $SPIGOT_HOME/spigot-$1.jar"
+    execCMD "rm -Rf $SPIGOT_HOME/build"
   fi
-  execCMD "rm -f /$SPIGOT_HOME/spigot.jar"
-  execCMD "ln -s /$SPIGOT_HOME/spigot-$1.jar /$SPIGOT_HOME/spigot.jar"
+  execCMD "rm -f $SPIGOT_HOME/spigot.jar"
+  execCMD "ln -s $SPIGOT_HOME/spigot-$1.jar $SPIGOT_HOME/spigot.jar"
 }
 	
 #
@@ -250,25 +252,7 @@ start() {
    # be in right working directory when starting 
    cd $MC_DIR
 
-   execCMD "tail -f --pid=\$$ $MC_DIR/input.con | { $JAVACMD $MC_JAVA_OPS -jar $MC_DIR/$MC_PROC nogui > $MC_DIR/output.con 2>&1 ; kill \$$ ; } " &
-
-   # check if the command wait OK
-
-   if [ $? -ne 0 ]; then
-     echo "Could not start $MC_DIR/$MC_PROC.\n"
-     exit 1
-   fi
-
-   # wait 2 seconds to see if the process survived
-
-   sleep 2
-
-   if [ $(isRunning) -eq 1 ] ; then
-     echo "Started"
-   else
-     echo "stopped again"
-     exit 1
-   fi
+   $JAVACMD $MC_JAVA_OPS -jar $MC_PROC nogui
 
 }
 
@@ -344,13 +328,13 @@ case "$1" in
   ;;
 
   create)
-    SVER=$2
-    if [ -z "$SVER" ] ; then
+    #SVER=$2
+    if [ -z "$MC_VERSION" ] ; then
       SVER="latest"
     fi
-    echo "Setting version to $SVER"
+    echo "Setting version to $MC_VERSION"
 
-    buildjar $SVER
+    buildjar $MC_VERSION
   ;;
 
   status)

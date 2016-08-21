@@ -1,8 +1,6 @@
-#!/bin/bash
-#
-# accept eula if set
-#
-# (c) 2016 nimmis <kjell.havneskold@gmail.com>
+#!/bin/sh
+set -e
+set -x
 
 if [ ! -z $EULA ] ; then
   
@@ -10,3 +8,5 @@ if [ ! -z $EULA ] ; then
   chown minecraft $SPIGOT_HOME/eula.txt 
 
 fi 
+
+exec "$@"

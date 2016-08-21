@@ -1,0 +1,77 @@
+# This is the main configuration file for Spigot.
+# As you can see, there's tons to configure. Some options may impact gameplay, so use 
+# with caution, and make sure you know what each option does before configuring.
+# For a reference for any variable inside this file, check out the Spigot wiki at
+# http://www.spigotmc.org/wiki/spigot-configuration/
+#
+# If you need help with the configuration or have any questions related to Spigot,
+# join us at the IRC or drop by our forums and leave a post.
+#
+# IRC: #spigot @ irc.esper.net ( http://webchat.esper.net/?channel=spigot )
+# Forums: http://www.spigotmc.org/forum/
+listeners:
+  - host: default
+    port: default
+    netty: true
+    connection-throttle: default
+settings:
+  prevent-proxies: false
+  restart-script: ./start.sh
+  restart-on-crash: true
+  netty-threads: 3
+  timeout-time: 30
+  bungeecord: false
+  bungeecord-addresses:
+    - 127.0.0.1
+commands:
+  log: true
+  tab-complete: true
+  spam-exclusions:
+    - /skill
+messages:
+  whitelist: "You are not whitelisted on this server!"
+  unknown-command: "Unknown command. Type \"help\" for help."
+  no-permission: "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error."
+world-settings:
+  default:
+    anti-xray:
+      enabled: false
+      engine-mode: 1
+      blocks: [1, 5, 14, 15, 16, 21, 48, 49, 54, 56, 73, 74, 82, 129, 130]
+    growth:
+      chunks-per-tick: 750
+      cactus-modifer: 100
+      melon-modifer: 100
+      pumpkin-modifer: 100
+      sapling-modifer: 100
+      sugarcane-modifer: 100
+      sapling-modifier: 100
+      mushroom-modifier: 100
+    entity-activation-range:
+      animals: 32
+      monsters: 32
+      misc: 16
+    entity-tracking-range:
+      players: 48
+      animals: 48
+      monsters: 48
+      misc: 32
+      other: 64
+    spawn-limits:
+      monsters: default
+      animals: default
+      water-animals: default
+      ambient: default
+    ticks-per:
+      animal-spawn: default
+      monster-spawn: default
+      hopper-transfer: 8
+      hopper-check: 8
+    merge-radius:
+      exp: 3
+      item: 2.5
+    mob-spawn-range: 4
+    random-light-updates: false
+    tick-aggregate: 4
+    view-distance: default
+    verbose: true

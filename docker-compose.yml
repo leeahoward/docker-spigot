@@ -1,0 +1,21 @@
+version: "2"
+services:
+  minecraft:
+    ports:
+      - "25565:25565"
+    build: minecraft_spigot
+    volumes:
+      - ./minecraft_data:/minecraft
+      #- ./config:/minecraft_config
+      - ./minecraft_spigot/docker/:/docker/
+    environment:
+      EULA: "true"
+      SPIGOT_VER: latest
+      SPIGOT_HOME: /minecraft
+      MC_DIR: /minecraft # Directory where the server should run
+      MC_USER: minecraft # User name running the minecraft server
+      MC_VERSION: latest 
+      MC_PROC: /spigot/spigot.jar   # name of minecraft jar file
+      MC_JAVA_OPS: "-Xmx1G -Xms1G"   # java options for minecraft server
+    #entrypoint: sleep 1000
+    #entrypoint: sleep 1000ls -la /docker
