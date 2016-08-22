@@ -1,0 +1,10 @@
+{
+  "apikey": "3808e65d80bbe3fe373485c30f5dd830",
+  "port": 3000,
+  "minecraft_port": 25565,
+  "ram": "1024M",
+  "jarfile_directory": "/nodemc_data/",
+  "jar": "spigot",
+  "version": "1.9",
+  "firstrun": false
+}

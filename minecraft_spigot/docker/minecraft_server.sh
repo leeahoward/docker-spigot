@@ -16,7 +16,7 @@ set -x
 # (c) 2015-2016 nimmis <kjell.havneskold@gmail.com>
 #
 
-MC_USER=minecraft       # User name running the minecraft server
+#MC_USER=minecraft       # User name running the minecraft server
 #MC_PROC=spigot.jar   # name of minecraft jar file
 #MC_DIR=/minecraft/ # Directory where the server should run
 #MC_JAVA_OPS='-Xmx1G -Xms1G'   # java options for minecraft server
@@ -186,20 +186,20 @@ checkOK() {
 #
 
 buildjar() {
-  # build it if it not exists
+  # build it if it does not exist
   if [ ! -f $SPIGOT_HOME/spigot-$1.jar ]; then
-    echo "Building spigot version ($1) jar file, be patient"
+    echo "Building spigot version ($SPIGOT_VERSION) jar file, be patient"
     if [ -d $SPIGOT_HOME/build ]; then
       execCMD "rm -Rf $SPIGOT_HOME/build"
     fi
     execCMD "mkdir -p $SPIGOT_HOME/build"
     execCMD "wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O $SPIGOT_HOME/build/BuildTools.jar"
-    execCMD "cd $SPIGOT_HOME/build;HOME=$SPIGOT_HOME/build java -jar BuildTools.jar --rev $1"
-    execCMD "cp $SPIGOT_HOME/build/Spigot/Spigot-Server/target/spigot-*.jar $SPIGOT_HOME/spigot-$1.jar"
+    execCMD "cd $SPIGOT_HOME/build;HOME=$SPIGOT_HOME/build java -jar BuildTools.jar --rev $SPIGOT_VERSION"
+    execCMD "cp $SPIGOT_HOME/build/Spigot/Spigot-Server/target/spigot-*.jar $SPIGOT_HOME/spigot-$SPIGOT_VERSION.jar"
     execCMD "rm -Rf $SPIGOT_HOME/build"
   fi
   execCMD "rm -f $SPIGOT_HOME/spigot.jar"
-  execCMD "ln -s $SPIGOT_HOME/spigot-$1.jar $SPIGOT_HOME/spigot.jar"
+  execCMD "ln -s $SPIGOT_HOME/spigot-$SPIGOT_VERSION.jar $SPIGOT_HOME/spigot.jar"
 }
 	
 #

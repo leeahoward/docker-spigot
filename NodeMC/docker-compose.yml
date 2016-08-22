@@ -1,0 +1,14 @@
+version: "2"
+services:
+  nodemc:
+    build: .
+    ports: 
+      - "3000:3000"
+    environment:
+      API_KEY: "3808e65d80bbe3fe373485c30f5dd830"
+    volumes:
+      - ./nodemc_data/eula.txt:/usr/src/NodeMC/eula.txt
+      - ./nodemc_data:/nodemc_data
+      - ./settings/properties.json:/usr/src/NodeMC/server_files/properties.json
+      - ./settings/server.properties:/usr/src/NodeMC/server.properties
+      - ./CORE/Main.js:/usr/src/NodeMC/Main.js

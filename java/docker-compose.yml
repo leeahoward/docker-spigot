@@ -1,0 +1,7 @@
+version: "2"
+services:
+  jsonapi:
+    build: .
+    volumes:
+      - ./jsonapi:/jsonapi
+      - ./VaultAPI:/VaultAPI

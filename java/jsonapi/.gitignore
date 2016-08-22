@@ -1,0 +1,13 @@
+SpigotBuildTools/
+test/
+builds/
+target/
+release/
+bin/
+deps/craftbukkit.jar
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+!*.dll

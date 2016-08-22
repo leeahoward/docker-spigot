@@ -3,19 +3,30 @@ services:
   minecraft:
     ports:
       - "25565:25565"
+      - "20059:20059"
+      - "20060:20060"
+      - "20061:20061"
     build: minecraft_spigot
     volumes:
       - ./minecraft_data:/minecraft
-      #- ./config:/minecraft_config
       - ./minecraft_spigot/docker/:/docker/
     environment:
       EULA: "true"
-      SPIGOT_VER: latest
-      SPIGOT_HOME: /minecraft
+
+      # spigot build options
+      # version of spigot to build
+      SPIGOT_VERSION: "latest"
+      SPIGOT_HOME: /spigot
+      # name of spigot jar to build
+      SPIGOT_JAR: /spigot/spigot-latest.jar 
+
+
+      # run options
       MC_DIR: /minecraft # Directory where the server should run
       MC_USER: minecraft # User name running the minecraft server
-      MC_VERSION: latest 
-      MC_PROC: /spigot/spigot.jar   # name of minecraft jar file
+      MC_VERSION: "latest"
+      MC_PROC_DIR: /minecraft/spigot/ # source dir of minecraft jar file
+      MC_PROC: /minecraft/spigot/spigot-latest.jar # name of jar file to run final location
       MC_JAVA_OPS: "-Xmx1G -Xms1G"   # java options for minecraft server
-    #entrypoint: sleep 1000
-    #entrypoint: sleep 1000ls -la /docker
+
+

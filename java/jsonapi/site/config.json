@@ -1,0 +1,12 @@
+{
+	"contents"	: "./contents",
+	"templates"	: "./templates",
+	"output"	: "./build",
+
+	"plugins"	: [
+		"wintersmith-stylus",
+		"wintersmith-coffee"
+	],
+
+	"locals"    : "locals.json"
+}

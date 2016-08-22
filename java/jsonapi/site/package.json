@@ -1,0 +1,20 @@
+{
+  "name": "mcjsonapi.com",
+  "version": "1.0.0",
+  "description": "The website for JSONAPI: mcjsonapi.com",
+  "main": "generate.coffee",
+  "scripts": {
+    "build": "node_modules/.bin/coffee generate.coffee build",
+    "preview": "node_modules/.bin/coffee generate.coffee preview",
+    "build-locals": "node_modules/.bin/coffee generate.coffee build_locals"
+  },
+  "author": "Alec Gorge",
+  "license": "MIT",
+  "dependencies": {
+    "wintersmith-coffee": "~0.2.1",
+    "wintersmith-stylus": "~0.4.0",
+    "wintersmith": "~2.0.10",
+    "coffee-script": "~1.7.1",
+    "request": "~2.37.0"
+  }
+}
