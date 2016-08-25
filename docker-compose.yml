@@ -1,32 +1,26 @@
 version: "2"
 services:
-  minecraft:
-    ports:
-      - "25565:25565"
-      - "20059:20059"
-      - "20060:20060"
-      - "20061:20061"
-    build: minecraft_spigot
+  overviewer:
+    build: overviewer
     volumes:
-      - ./minecraft_data:/minecraft
-      - ./minecraft_spigot/docker/:/docker/
+      - ./data/minecraft/worlds/josh:/minecraft/worlds/josh
+      - ./data/overviewer/worlds/josh:/overviewer/worlds/josh
+    environment: 
+      world: josh
+
+  nodemc:
+    build: NodeMC
+    ports: 
+      - "3000:3000"
+      - "25565:25565"
     environment:
-      EULA: "true"
+      API_KEY: "3808e65d80bbe3fe373485c30f5dd830"
+    volumes:
+      - ./data/nodemc/jars/eula.txt:/usr/src/NodeMC/eula.txt
+      - ./data/nodemc/jars:/nodemc_data
+      - ./data/nodemc/settings/properties.json:/usr/src/NodeMC/server_files/properties.json
+      - ./data/nodemc/settings/server.properties:/usr/src/NodeMC/server.properties
 
-      # spigot build options
-      # version of spigot to build
-      SPIGOT_VERSION: "latest"
-      SPIGOT_HOME: /spigot
-      # name of spigot jar to build
-      SPIGOT_JAR: /spigot/spigot-latest.jar 
+      - ./NodeMC/CORE/Main.js:/usr/src/NodeMC/Main.js
 
-
-      # run options
-      MC_DIR: /minecraft # Directory where the server should run
-      MC_USER: minecraft # User name running the minecraft server
-      MC_VERSION: "latest"
-      MC_PROC_DIR: /minecraft/spigot/ # source dir of minecraft jar file
-      MC_PROC: /minecraft/spigot/spigot-latest.jar # name of jar file to run final location
-      MC_JAVA_OPS: "-Xmx1G -Xms1G"   # java options for minecraft server
-
-
+      - ./data/minecraft/worlds/josh:/usr/src/NodeMC/world
