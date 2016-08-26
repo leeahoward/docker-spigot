@@ -17,8 +17,18 @@ RUN apt-get update -qq \
 
 
 COPY ["./docker","/docker"]
+COPY ["./config","/config"]
 
-RUN chmod +x ./docker/*.sh
+WORKDIR /docker 
+
+RUN chmod +x /docker/*.sh \
+	&& rm /bin/sh \ 
+	&& ln -s /bin/bash /bin/sh 
+
+
 RUN ls -la /docker
 
-ENTRYPOINT ["./docker/entrypoint.sh"]
+
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["ls"]

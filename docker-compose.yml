@@ -1,12 +1,22 @@
 version: "2"
 services:
+  webserver:
+    image: nginx:alpine
+    ports:
+      - "81:80"
+    volumes:
+      - ./data/overviewer/worlds:/usr/share/nginx/html
+
   overviewer:
     build: overviewer
     volumes:
       - ./data/minecraft/worlds/josh:/minecraft/worlds/josh
       - ./data/overviewer/worlds/josh:/overviewer/worlds/josh
+      - ./data/overviewer/textures:/overviewer/textures
     environment: 
-      world: josh
+      WORLD: josh
+      TEXTURES_VERSION: "1.10"
+      MAPS_API_KEY: "AIzaSyCXPdXkdxf5nFLtjEGl7gQ2KzGiUEg9p6M"
 
   nodemc:
     build: NodeMC
