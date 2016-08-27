@@ -1,24 +1,36 @@
 version: "2"
+volumes:
+  backups:
+
 services:
   webserver:
+    restart: always
     image: nginx:alpine
     ports:
-      - "81:80"
+      - "80:80"
     volumes:
+      # share the root of your overviewer data
+      - ./data/overviewer/index.html:/usr/share/nginx/html/josh/i2.html:ro
+      - ./data/overviewer/index.html:/usr/share/nginx/html/lydia/i2.html:ro
       - ./data/overviewer/worlds:/usr/share/nginx/html
 
-  overviewer:
+  overviewer_josh:
+    restart: always
     build: overviewer
     volumes:
+      # world data from minecraft
       - ./data/minecraft/worlds/josh:/minecraft/world
+      # where the map goes
       - ./data/overviewer/worlds/josh:/overviewer/world
-      - ./data/overviewer/overviewer.py:/overviewer/overviewer.py
+      # config file
+      - ./data/overviewer/config/overviewer_josh.py:/overviewer/config/overviewer.py
     environment: 
       MAPS_API_KEY: "AIzaSyCXPdXkdxf5nFLtjEGl7gQ2KzGiUEg9p6M"
       TEXTURES_VERSION: "1.10"
 
 
-  nodemc:
+  nodemc_josh:
+    restart: always
     build: NodeMC
     ports: 
       - "3000:3000"
@@ -28,14 +40,65 @@ services:
       API_KEY: "3808e65d80bbe3fe373485c30f5dd830"
 
     volumes:
-      - ./data/nodemc/jars/eula.txt:/usr/src/NodeMC/eula.txt
+      - backups:/minecraft_backups
+
+      - ./data/nodemc/jars/eula.txt:/minecraft/eula.txt
       - ./data/nodemc/jars:/minecraft_jars
+
       - ./data/nodemc/minecraft_home/properties.json:/usr/src/NodeMC/server_files/properties.json
-      - ./data/nodemc/minecraft_home/server.properties:/minecraft/server.properties
-      #- ./data/nodemc/minecraft_home:/minecraft
+      - ./data/nodemc/minecraft_home:/minecraft
+
+      #- ./data/nodemc/minecraft_home/server.properties:/minecraft/server.properties
 
       # world data - could also be in minecraft_home above?
       - ./data/minecraft/worlds/josh:/minecraft/world
+
+      # custom Main.js
+      - ./NodeMC/CORE/Main.js:/usr/src/NodeMC/Main.js
+
+
+
+
+
+
+  overviewer_lydia:
+    restart: always
+    build: overviewer
+    volumes:
+      # world data from minecraft
+      - ./data/minecraft/worlds/lydia:/minecraft/world
+      # where the map goes
+      - ./data/overviewer/worlds/lydia:/overviewer/world
+      # config file
+      - ./data/overviewer/config/overviewer_lydia.py:/overviewer/config/overviewer.py
+    environment: 
+      MAPS_API_KEY: "AIzaSyCXPdXkdxf5nFLtjEGl7gQ2KzGiUEg9p6M"
+      TEXTURES_VERSION: "1.10"
+
+
+  nodemc_lydia:
+    restart: always
+    build: NodeMC
+    ports: 
+      - "3001:3000"
+      - "25566:25565"
+    environment:
+      # api key for access to NodeMC
+      API_KEY: "3808e65d80bbe3fe373485c30f5dd830"
+
+    volumes:
+      - backups:/minecraft_backups
+
+      - ./data/nodemc/jars/eula.txt:/minecraft/eula.txt
+      - ./data/nodemc/jars:/minecraft_jars
+
+      - ./data/nodemc/minecraft_home2/properties.json:/usr/src/NodeMC/server_files/properties.json
+      - ./data/nodemc/minecraft_home2:/minecraft
+
+      #- ./data/nodemc/minecraft_home/server.properties:/minecraft/server.properties
+
+      # world data - could also be in minecraft_home above?
+      - ./data/minecraft/worlds/lydia:/minecraft/world
 
       # custom Main.js
       - ./NodeMC/CORE/Main.js:/usr/src/NodeMC/Main.js

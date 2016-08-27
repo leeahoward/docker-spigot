@@ -17,7 +17,6 @@ RUN apt-get update -qq \
 
 
 COPY ["./docker","/docker"]
-COPY ["./config","/config"]
 
 WORKDIR /docker 
 
@@ -31,4 +30,4 @@ RUN ls -la /docker
 
 ENTRYPOINT ["./entrypoint.sh"]
 
-CMD ["ls"]
+CMD ["./runOverviewer.sh"]
